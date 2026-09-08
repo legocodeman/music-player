@@ -37,7 +37,7 @@
    'C:\\Users\\legod\\Desktop\\Code\\Python\\music_player\\packenv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth__tkinter.py',
    'PYSOURCE'),
   ('MusicPlayer',
-   'C:\\Users\\legod\\Desktop\\Code\\Python\\music_player\\packenv\\MusicPlayer.py',
+   'C:\\Users\\legod\\Desktop\\Code\\Python\\music_player\\MusicPlayer.py',
    'PYSOURCE')],
  'python313.dll',
  True,

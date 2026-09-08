@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['C:/Users/legod/Desktop/Code/Python/music_player/packenv/MusicPlayer.py'],
+    ['MusicPlayer.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -27,6 +27,7 @@ exe = EXE(
     strip=False,
     upx=True,
     console=True,
+    icon='icon.ico',
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
