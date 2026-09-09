@@ -94,7 +94,6 @@ playlist.pack(side=LEFT,fill=BOTH)
 
 
 
-root.iconbitmap("assets/icon.ico")
 
 
 root.mainloop()
