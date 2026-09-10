@@ -8,7 +8,7 @@ import os
 try:
     from ctypes import windll  # Only exists on Windows.
 
-    myappid = "mycompany.myproduct.subproduct.version"
+    myappid = "mar.desktopapp.musicplayer.1"
     windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 except ImportError:
     pass
@@ -42,18 +42,29 @@ def play_song():
     music_name=playlist.get(ACTIVE)
     mixer.music.load(playlist.get(ACTIVE))
     mixer.music.play()
-    music.config(text=music_name[0:-4],font="")
+    music.config(text=music_name[0:-4],font=("arial,15"))
+
+root = Tk()
+root.title("Game")
+
+frame = Frame(root)
+frame.pack()
+
+
+canvas = Canvas(frame, bg="black", width=700, height=400)
+canvas.pack()
+
 
 #icon
-image_icon=PhotoImage(file="assets/logo.png")
+image_icon=PhotoImage(file="assets/musicplayer.png")
 root.iconphoto(False,image_icon)
 
-Top=PhotoImage(file="assets/top.png")
-Label(root,image=Top,bg="#0f1a2b").pack()
+
 
 #logo
-Logo=PhotoImage(file="assets/logo.png")
-Label(root,image=Logo,bg="#0f1a2b").place(x=65, y=115)
+Logo=PhotoImage(file="assets/musicplayer.png")
+#Label(root,image=Logo).place(x=40, y=115)
+canvas.create_image(30,30,image=Logo)
 
 #button
 play_button=PhotoImage(file="assets/play.png")
@@ -72,11 +83,9 @@ Button(root,image=pause_button,bg="#0f1a2b",bd=0,command=mixer.music.pause).plac
 
 #label
 music=Label(root,text="",font=("arial",15),fg="white",bg="#0f1a2b")
-music.place(x=150,y=340,anchor="center")
+music.place(x=150,y=640,anchor="center")
 
-#music
-Menu=PhotoImage(file="assets/menu.png")
-Label(root,image=Menu,bg="#0f1a2b").pack(padx=10,pady=50,side=RIGHT)
+
 
 music_frame= Frame(root,bd=2, relief=RIDGE)
 music_frame.place(x=330,y=350,width=560,height=250)
