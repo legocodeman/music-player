@@ -18,7 +18,7 @@ except ImportError:
 
 root=Tk()
 root.title("Music Player")
-root.geometry("340x500+620+190")
+root.geometry("340x550+620+190")
 #root.configure(bg="#0f1a2b")
 root.resizable(False, False)
 
@@ -54,12 +54,14 @@ canvas.pack()
 image_icon=PhotoImage(file="assets/musicplayer.png")
 root.iconphoto(False,image_icon)
 
-Top=PhotoImage(file="assets/top.png")
+#Top=PhotoImage(file="assets/top.png")
 #Label(root,image=Top,bg="#0f1a2b").pack()
-canvas.create_image(460,80,image=Top)
+#canvas.create_image(480,80,image=Top)
 
 #logo
-
+Logo=PhotoImage(file="assets/musicplayer.png")
+#Label(root,image=Logo).place(x=40, y=115)
+canvas.create_image(170,150,image=Logo)
 
 #button
 play_button=PhotoImage(file="assets/play.png")
@@ -83,16 +85,17 @@ music.place(x=166,y=300,anchor="center")
 
 
 #music
-Menu=PhotoImage(file="assets/menu.png")
+#Menu=PhotoImage(file="assets/menu.png")
 #Label(root,image=Menu,bg="#0f1a2b").pack(padx=10,pady=50,side=RIGHT)
-canvas.create_image(600, 450,image=Menu)
+#canvas.create_image(30, 450,image=Menu)
 
 music_frame= Frame(root,bd=2, relief=RIDGE)
-music_frame.place(x=130,y=350,width=560,height=250)
+music_frame.place(x=23,y=400,width=300,height=140)
 
-
-Button(root,text="open folder",width=15,height=2,font=("arial",10,"bold"),fg="white",bg="#21b3de",
-       command=open_folder).place(x=112,y=300)
+button_image=PhotoImage(file="assets/add.png")
+#canvas.create_image(1,1,image=button_image)
+Button(root,image=button_image,bg="black", bd=0, width=4,height=4,
+       command=open_folder).place(x=270,y=10)
 
 scroll = Scrollbar(music_frame)
 playlist=Listbox(music_frame,width=100,font=("arial",10),bg="#333333",fg="grey",selectbackground="lightblue",
