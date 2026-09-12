@@ -41,7 +41,11 @@ def play_song():
     music_name=playlist.get(ACTIVE)
     mixer.music.load(playlist.get(ACTIVE))
     mixer.music.play()
-    music.config(text=music_name[0:-4],font=("arial,15"))
+    music.config(text=music_name[0:-4],font=("Timesnewroman,5"))
+
+def next_song():
+    music_name=playlist.get(ACTIVE+1)
+    mixer.music.load(playlist.get(ACTIVE+1))
 
 frame = Frame(root)
 frame.pack()
@@ -51,7 +55,7 @@ canvas = Canvas(frame, bg="black", width=900, height=700)
 canvas.pack()
 
 #icon
-image_icon=PhotoImage(file="assets/musicplayer.png")
+image_icon=PhotoImage(file="assets/record.png")
 root.iconphoto(False,image_icon)
 
 #Top=PhotoImage(file="assets/top.png")
@@ -59,28 +63,27 @@ root.iconphoto(False,image_icon)
 #canvas.create_image(480,80,image=Top)
 
 #logo
-Logo=PhotoImage(file="assets/musicplayer.png")
+Logo=PhotoImage(file="assets/record.png")
 #Label(root,image=Logo).place(x=40, y=115)
-canvas.create_image(170,150,image=Logo)
+canvas.create_image(170,140,image=Logo)
 
 #button
 play_button=PhotoImage(file="assets/play.png")
-Button(root,image=play_button,bg="#0f1a2b",bd=0,command=play_song).place(x=100,y=400)
+Button(root,image=play_button,bg="#000000",bd=0,command=play_song).place(x=148,y=340)
 
-stop_button=PhotoImage(file="assets/stop.png")
-Button(root,image=stop_button,bg="#0f1a2b",bd=0,command=mixer.music.stop).place(x=30,y=500)
+stop_button=PhotoImage(file="assets/stop1.png")
+Button(root,image=stop_button,bg="#0f1a2b",bd=0,command=mixer.music.stop).place(x=45,y=350)
 
-resume_button=PhotoImage(file="assets/resume.png")
-Button(root,image=resume_button,bg="#0f1a2b",bd=0,command=mixer.music.unpause).place(x=115,y=500)
+resume_button=PhotoImage(file="assets/resume1.png")
+Button(root,image=resume_button,bg="#0f1a2b",bd=0,command=mixer.music.unpause).place(x=135,y=350)
 
-
-pause_button=PhotoImage(file="assets/pause.png")
-Button(root,image=pause_button,bg="#0f1a2b",bd=0,command=mixer.music.pause).place(x=200,y=500)
+pause_button=PhotoImage(file="assets/pause1.png")
+Button(root,image=pause_button,bg="#0f1a2b",bd=0,command=next_song).place(x=220,y=350)
 
 
 #label
-music=Label(root,text="",font=("arial",15),fg="white",bg="#000000")
-music.place(x=166,y=300,anchor="center")
+music=Label(root,text="",font=("Timesnewroman",5),fg="white",bg="#000000")
+music.place(x=170,y=270,anchor="center")
 
 
 
@@ -94,8 +97,8 @@ music_frame.place(x=23,y=400,width=300,height=140)
 
 button_image=PhotoImage(file="assets/add.png")
 #canvas.create_image(1,1,image=button_image)
-Button(root,image=button_image,bg="black", bd=0, width=4,height=4,
-       command=open_folder).place(x=270,y=10)
+Button(root,image=button_image,bg="black", bd=0,
+       command=open_folder).place(x=280,y=30)
 
 scroll = Scrollbar(music_frame)
 playlist=Listbox(music_frame,width=100,font=("arial",10),bg="#333333",fg="grey",selectbackground="lightblue",
