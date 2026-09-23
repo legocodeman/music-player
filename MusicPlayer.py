@@ -115,7 +115,7 @@ class MediaPlayer:
         self.progress_scale.place(x=50,y=400)
 
         #BUTTONS
-        self.play_button = tk.Button(self.root,image=self.play_icon,command=self.play_song,cursor='hand2',bd=0,
+        self.play_button = tk.Button(self.root,image=self.play_icon,command=self.check_play_pause,cursor='hand2',bd=0,
                                      background=background, activebackground=background)
         self.play_button.place(x=146,y=425)
 
@@ -170,6 +170,9 @@ class MediaPlayer:
         m2.add_command(label="Delete All", command="command", image=self.delete_all_icon, compound="left")
 
         self.directory_list = []
+        self.pause=False
+
+        self.songs_to_play=[]
 
     def add_songs(self):
         songs = filedialog.askopenfilenames(title="Select Music Folder", filetypes=(('mp3 files', '*.mp3'),))
@@ -181,6 +184,41 @@ class MediaPlayer:
             #c:/new_folder/song.mp3
 
         self.songs_list.select_set('0')
+
+    def check_play_pause(self):
+
+        self.songs_to_play.append(self.songs_list.get('active'))
+
+        length=len(self.songs_to_play)
+
+        if len(self.songs_to_play)==1:
+            self.play_song()
+
+
+        elif self.songs_to_play[length-1]!=self.songs_to_play[length-2]:
+            self.root.after_cancel(self.updater)
+            self.play_song()
+
+        else:
+            self.pause_unpause()
+
+    def pause_unpause(self):
+        if not self.pause:
+            self.root.after_cancel(self.updater)
+            self.play_button.config(image=self.play_icon)
+            self.pause=True
+
+            self.status.config(text=f"Paused : {self.songs_list.get('active')} {self.songs_list.index('active')+1} of {self.songs_list.size()}")
+            pygame.mixer.music.pause()
+        else:
+            self.pause=False
+            self.play_button.config(image=self.pause_icon)
+            self.status.config(text=f"Playing : {self.songs_list.get('active')} {self.songs_list.index('active')+1} of {self.songs_list.size()}")
+
+            pygame.mixer.music.unpause()
+            self.scale_update()
+
+
     def play_song(self):
         self.progress_scale['value'] = 0
         self.time_elapsed_label['text'] = "00:00"
@@ -215,6 +253,7 @@ class MediaPlayer:
         else:
             self.progress_scale['value'] = 0
             self.time_elapsed_label['text'] = "00:00"
+
     def next_song(self):
         self.root.after_cancel(self.updater)
         song_index=self.songs_list.index('active')
@@ -225,11 +264,11 @@ class MediaPlayer:
         if list_length-1 == song_index:
             self.songs_list.selection_set(0)
             self.songs_list.activate(0)   
-            self.play_song()
+            self.check_play_pause()
         else:
             self.songs_list.selection_set(song_index+1)
             self.songs_list.activate(song_index+1)
-            self.play_song()
+            self.check_play_pause()
 
     def previous_song(self):
         self.root.after_cancel(self.updater)
@@ -241,11 +280,11 @@ class MediaPlayer:
         if song_index == 0:
             self.songs_list.slection_set(list_length-1)
             self.songs_list.activate(list_length-1)
-            self.play_song()
+            self.check_play_pause()
         else:
             self.songs_list.slection_set(song_index-1)
             self.songs_list.activate(song_index-1)
-            self.play_song()
+            self.check_play_pause()
 
 
         
