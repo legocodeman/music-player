@@ -14,15 +14,15 @@ class MediaPlayer:
         style = ttk.Style()
         style.theme_use("equilux")
 
-        background = "grey"
+        background = "#363981"
 
         style.configure("TScale", background = background)
 
         self.root = window
 
-        self.root.configure(bg="#131f04")
+        self.root.configure(bg="#363981")
 
-        self.music_image = Image.open('assets/recordB.png')
+        self.music_image = Image.open('assets/recordG.png')
         self.music_image = self.music_image.resize((250,250), Image.LANCZOS)
         self.music_image = ImageTk.PhotoImage(self.music_image)
 
@@ -42,16 +42,16 @@ class MediaPlayer:
         self.pause_icon = self.pause_icon.resize((50,50), Image.LANCZOS)
         self.pause_icon = ImageTk.PhotoImage(self.pause_icon)
 
-        self.next_icon = Image.open('assets/Images/next.png')
-        self.next_icon = self.next_icon.resize((70,70), Image.LANCZOS)
+        self.next_icon = Image.open('assets/next.png')
+        self.next_icon = self.next_icon.resize((40,40), Image.LANCZOS)
         self.next_icon = ImageTk.PhotoImage(self.next_icon)
 
-        self.previous_icon = Image.open('assets/Images/previous.png')
-        self.previous_icon = self.previous_icon.resize((70,70), Image.LANCZOS)
+        self.previous_icon = Image.open('assets/previous.png')
+        self.previous_icon = self.previous_icon.resize((40,40), Image.LANCZOS)
         self.previous_icon = ImageTk.PhotoImage(self.previous_icon)
 
         self.stop_icon = Image.open('assets/Images/stop.png')
-        self.stop_icon = self.stop_icon.resize((50,50), Image.LANCZOS)
+        self.stop_icon = self.stop_icon.resize((20,20), Image.LANCZOS)
         self.stop_icon = ImageTk.PhotoImage(self.stop_icon)
 
         self.speaker_icon = Image.open('assets/Images/speaker.png')
@@ -100,7 +100,7 @@ class MediaPlayer:
 
         self.songs_list = tk.Listbox(self.root, width=30, height=18, bg="black", fg="blue", relief="flat",
                                      selectbackground="grey")
-        self.songs_list.place(x=520, y=60)
+        self.songs_list.place(x=420, y=60)
 
         self.time_elapsed_label = tk.Label(self.root,text="00:00", fg="black",background=background,
                                            activebackground=background,padx=5)
@@ -111,7 +111,7 @@ class MediaPlayer:
         self.music_duration_label.place(x=460,y=400)
 
         self.progress_scale = ttk.Scale(self.root,orient="horizontal",style='TScale',from_=0, length=250, 
-                                        command="command",cursor='hand2')
+                                        command=self.progress_scale_moved,cursor='hand2')
         self.progress_scale.place(x=50,y=400)
 
         #BUTTONS
@@ -121,15 +121,15 @@ class MediaPlayer:
 
         self.next_button = tk.Button(self.root,image=self.next_icon,command=self.next_song,cursor='hand2',bd=0,
                                      background=background, activebackground=background)
-        self.next_button.place(x=325,y=435)
+        self.next_button.place(x=225,y=433)
 
         self.previous_button = tk.Button(self.root,image=self.previous_icon,command=self.previous_song,cursor='hand2',bd=0,
                                      background=background, activebackground=background)
-        self.previous_button.place(x=73,y=435)
+        self.previous_button.place(x=73,y=433)
 
         self.stop_button = tk.Button(self.root,image=self.stop_icon,command="command",cursor='hand2',bd=0,
                                      background=background, activebackground=background)
-        self.stop_button.place(x=236,y=425)
+        self.stop_button.place(x=236,y=525)
 
         self.shuffle_button = tk.Button(self.root,image=self.shuffle_icon,command="command",cursor='hand2',bd=0,
                                      background=background, activebackground=background)
@@ -150,10 +150,12 @@ class MediaPlayer:
         self.vol_scale = ttk.Scale(self.root, from_=0, to=100, orient="horizontal",command="simple",cursor="hand2")
         self.vol_scale.place(x=420,y=425)
 
-        self.status = tk.Label(self.root, text="Playing : ---------- Song 0 of 0",fg="white",anchor="w",background= "grey",
-                               font="lucida 9 bold",bd=5,relief="ridge")
+       # self.status = tk.Label(self.root, text="Playing : ---------- Song 0 of 0",fg="white",anchor="w",background= "grey",
+                              # font="lucida 9 bold",bd=5,relief="ridge")
+        self.status = tk.Label(self.root, text="----------",fg="white",anchor="w",background= "#0d1f04",
+                               font="lucida 13 bold",bd=5)                      
 
-        self.status.place(x=5,y=520,relwidth=1)
+        self.status.place(x=50,y=330,relwidth=1)
 
         self.menu = tk.Menu(self.root)
         self.root.configure(menu=self.menu)
@@ -240,6 +242,26 @@ class MediaPlayer:
         self.play_button.config(image=self.pause_icon)
         pygame.mixer.music.load(song_with_path)
         pygame.mixer.music.play()
+        self.scale_update()
+
+
+    def progress_scale_moved(self,x):
+        self.root.after_cancel(self.updater)
+
+        scale_at = self.progress_scale.get()
+
+        song_name=self.songs_list.get('active')
+
+        directory_path=None
+
+        for dictio in self.directory_list:
+            if dictio['song']==song_name:
+                directory_path=dictio['path']
+
+        pygame.mixer.music.load(f"{directory_path}/{song_name}")
+
+
+        pygame.mixer.music.play(0,scale_at)
         self.scale_update()
         
 
