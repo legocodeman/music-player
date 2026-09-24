@@ -20,10 +20,14 @@ class MediaPlayer:
 
         self.root = window
 
-        self.root.configure(bg="#363981")
+        self.root.configure(bg="#494c82")
 
-        self.music_image = Image.open('assets/recordG.png')
-        self.music_image = self.music_image.resize((250,250), Image.LANCZOS)
+        self.purple_image = Image.open('assets/purple.png')
+        self.purple_image = self.purple_image.resize((200,300), Image.LANCZOS)
+        self.purple_image = ImageTk.PhotoImage(self.purple_image)
+
+        self.music_image = Image.open('assets/shark record.png')
+        self.music_image = self.music_image.resize((220,220), Image.LANCZOS)
         self.music_image = ImageTk.PhotoImage(self.music_image)
 
         self.repeat_icon = Image.open('assets/Images/repeat.png')
@@ -90,34 +94,38 @@ class MediaPlayer:
         self.auto_play_not_icon = self.auto_play_not_icon.resize((40,40), Image.LANCZOS)
         self.auto_play_not_icon = ImageTk.PhotoImage(self.auto_play_not_icon)
 
-        self.song_photo = tk.Label(self.root,text="",image=self.music_image,bd=0)
-        self.song_photo.place(x=45,y=45)
+        self.purple_image = tk.Label(self.root,text="",image=self.purple_image,bd=0)
+        self.purple_image.place(x=20,y=25)
+
+        #self.song_photo = tk.Label(self.root,text="",image=self.music_image,bd=0)
+        #self.song_photo.place(x=60,y=45)
 
         #self.heading = tk.Label(self.root, bg="black",text="Music Player", font="helvetica 40 bold italic", fg="#003F05")
         #self.heading.place(x=0,y=2,relwidth=1)
 
        # tk.Label(self.root, text="",background=background,height=7,width=120).place(x=5,y=400)
+       
 
         self.songs_list = tk.Listbox(self.root, width=30, height=18, bg="black", fg="blue", relief="flat",
                                      selectbackground="grey")
         self.songs_list.place(x=420, y=60)
 
-        self.time_elapsed_label = tk.Label(self.root,text="00:00", fg="black",background=background,
+        self.time_elapsed_label = tk.Label(self.root,text="00:00", fg="white",background=background,
                                            activebackground=background,padx=5)
-        self.time_elapsed_label.place(x=10,y=400)
+        self.time_elapsed_label.place(x=10,y=385)
 
-        self.music_duration_label = tk.Label(self.root,text="00:00",fg="black",background=background,
+        self.music_duration_label = tk.Label(self.root,text="00:00",fg="white",background=background,
                                              activebackground=background,padx=15)
-        self.music_duration_label.place(x=460,y=400)
+        self.music_duration_label.place(x=290,y=383)
 
         self.progress_scale = ttk.Scale(self.root,orient="horizontal",style='TScale',from_=0, length=250, 
                                         command=self.progress_scale_moved,cursor='hand2')
-        self.progress_scale.place(x=50,y=400)
+        self.progress_scale.place(x=48,y=380)
 
         #BUTTONS
         self.play_button = tk.Button(self.root,image=self.play_icon,command=self.check_play_pause,cursor='hand2',bd=0,
                                      background=background, activebackground=background)
-        self.play_button.place(x=146,y=425)
+        self.play_button.place(x=148,y=425)
 
         self.next_button = tk.Button(self.root,image=self.next_icon,command=self.next_song,cursor='hand2',bd=0,
                                      background=background, activebackground=background)
@@ -139,9 +147,9 @@ class MediaPlayer:
                                      background=background, activebackground=background)
         self.speaker_button.place(x=390,y=420)
 
-        self.repeat_button = tk.Button(self.root,image=self.repeat_icon,command="command",cursor='hand2',bd=0,
+        self.repeat_button = tk.Button(self.root,image=self.repeat_icon,command=self.repeat_song,cursor='hand2',bd=0,
                                      background=background, activebackground=background)
-        self.repeat_button.place(x=10,y=470)
+        self.repeat_button.place(x=290,y=425)
 
         self.auto_play_button = tk.Button(self.root,image=self.auto_play_icon,command="command",cursor='hand2',bd=0,
                                      background=background, activebackground=background)
@@ -152,10 +160,10 @@ class MediaPlayer:
 
        # self.status = tk.Label(self.root, text="Playing : ---------- Song 0 of 0",fg="white",anchor="w",background= "grey",
                               # font="lucida 9 bold",bd=5,relief="ridge")
-        self.status = tk.Label(self.root, text="----------",fg="white",anchor="w",background= "#0d1f04",
+        self.status = tk.Label(self.root, text="----------",fg="white",anchor="w",background= "#363981", wraplength=200, justify="left",
                                font="lucida 13 bold",bd=5)                      
 
-        self.status.place(x=50,y=330,relwidth=1)
+        self.status.place(x=70,y=320)
 
         self.menu = tk.Menu(self.root)
         self.root.configure(menu=self.menu)
@@ -173,6 +181,7 @@ class MediaPlayer:
 
         self.directory_list = []
         self.pause=False
+        self.repeat_condition=False
 
         self.songs_to_play=[]
 
@@ -210,13 +219,14 @@ class MediaPlayer:
             self.play_button.config(image=self.play_icon)
             self.pause=True
 
-            self.status.config(text=f"Paused : {self.songs_list.get('active')} {self.songs_list.index('active')+1} of {self.songs_list.size()}")
+            #self.status.config(text=f"Paused : {self.songs_list.get('active')} {self.songs_list.index('active')+1} of {self.songs_list.size()}")
+            self.status.config(text=f"{self.songs_list.get('active')}")            
             pygame.mixer.music.pause()
         else:
             self.pause=False
             self.play_button.config(image=self.pause_icon)
-            self.status.config(text=f"Playing : {self.songs_list.get('active')} {self.songs_list.index('active')+1} of {self.songs_list.size()}")
-
+            #self.status.config(text=f"Playing : {self.songs_list.get('active')} {self.songs_list.index('active')+1} of {self.songs_list.size()}")
+            self.status.config(text=f"{self.songs_list.get('active')}")
             pygame.mixer.music.unpause()
             self.scale_update()
 
@@ -226,8 +236,9 @@ class MediaPlayer:
         self.time_elapsed_label['text'] = "00:00"
 
         song_name = self.songs_list.get('active')
-        self.status.config(text=f"Playing: {song_name} Song : {self.songs_list.index('active')} of "
-                              f"{self.songs_list.size()}")
+        #self.status.config(text=f"Playing: {song_name} Song : {self.songs_list.index('active')} of "
+                              #f"{self.songs_list.size()}")
+        self.status.config(text=f"{song_name}")
         directory_path=None
         for dictio in self.directory_list:
             if dictio['song'] == song_name:
@@ -272,9 +283,24 @@ class MediaPlayer:
             self.time_elapsed_label['text'] = time.strftime('%M:%S', time.gmtime(self.progress_scale.get()))
 
             self.updater = self.root.after(1000, self.scale_update)
+
+        elif self.repeat_condition:
+            self.play_song()
+
         else:
             self.progress_scale['value'] = 0
             self.time_elapsed_label['text'] = "00:00"
+            self.play_button.config(image=self.play_icon)
+            self.songs_to_play=[]
+
+
+    def repeat_song(self):
+        if not self.repeat_condition:
+            self.repeat_condition=True
+            self.repeat_button.config(image=self.repeat1_icon)
+        else:
+            self.repeat_condition=False
+            self.repeat_button.config(image=self.repeat_icon)
 
     def next_song(self):
         self.root.after_cancel(self.updater)
