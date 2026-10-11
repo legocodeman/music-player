@@ -54,27 +54,27 @@ class MediaPlayer:
 ####################################################################################################################################################################
 
         self.repeat_icon = Image.open('assets/Images/repeat.png')
-        self.repeat_icon = self.repeat_icon.resize((25,25), Image.LANCZOS)
+        self.repeat_icon = self.repeat_icon.resize((24,24), Image.LANCZOS)
         self.repeat_icon = ImageTk.PhotoImage(self.repeat_icon)
 
         self.repeat1_icon = Image.open('assets/Images/repeat1.png')
-        self.repeat1_icon = self.repeat1_icon.resize((25,25), Image.LANCZOS)
+        self.repeat1_icon = self.repeat1_icon.resize((24,24), Image.LANCZOS)
         self.repeat1_icon = ImageTk.PhotoImage(self.repeat1_icon)
 
         self.play_icon = Image.open('assets/play.png')
-        self.play_icon = self.play_icon.resize((30,30), Image.LANCZOS)
+        self.play_icon = self.play_icon.resize((28,32), Image.LANCZOS)
         self.play_icon = ImageTk.PhotoImage(self.play_icon)
 
         self.pause_icon = Image.open('assets/pause.png')
-        self.pause_icon = self.pause_icon.resize((30,30), Image.LANCZOS)
+        self.pause_icon = self.pause_icon.resize((26,26), Image.LANCZOS)
         self.pause_icon = ImageTk.PhotoImage(self.pause_icon)
 
-        self.next_icon = Image.open('assets/next.png')
-        self.next_icon = self.next_icon.resize((30,30), Image.LANCZOS)
+        self.next_icon = Image.open('assets/fishboneright.png')
+        self.next_icon = self.next_icon.resize((33,20), Image.LANCZOS)
         self.next_icon = ImageTk.PhotoImage(self.next_icon)
 
-        self.previous_icon = Image.open('assets/previous.png')
-        self.previous_icon = self.previous_icon.resize((30,30), Image.LANCZOS)
+        self.previous_icon = Image.open('assets/fishboneleft.png')
+        self.previous_icon = self.previous_icon.resize((33,20), Image.LANCZOS)
         self.previous_icon = ImageTk.PhotoImage(self.previous_icon)
 
         self.stop_icon = Image.open('assets/Images/stop.png')
@@ -89,7 +89,7 @@ class MediaPlayer:
         self.mute_icon = self.mute_icon.resize((30,30), Image.LANCZOS)
         self.mute_icon = ImageTk.PhotoImage(self.mute_icon)
 
-        self.delete_icon = Image.open('assets/Images/delete.png')
+        self.delete_icon = Image.open('assets/delete.png')
         self.delete_icon = self.delete_icon.resize((30,30), Image.LANCZOS)
         self.delete_icon = ImageTk.PhotoImage(self.delete_icon)
 
@@ -97,8 +97,8 @@ class MediaPlayer:
         self.delete_all_icon = self.delete_all_icon.resize((30,30), Image.LANCZOS)
         self.delete_all_icon = ImageTk.PhotoImage(self.delete_all_icon)
 
-        self.add_song_icon = Image.open('assets/Images/song.png')
-        self.add_song_icon = self.add_song_icon.resize((30,30), Image.LANCZOS)
+        self.add_song_icon = Image.open('assets/addsongs.png')
+        self.add_song_icon = self.add_song_icon.resize((25,30), Image.LANCZOS)
         self.add_song_icon = ImageTk.PhotoImage(self.add_song_icon)
 
         self.multiple_song_icon = Image.open('assets/Images/song2.png')
@@ -110,7 +110,7 @@ class MediaPlayer:
         self.shuffle_icon = ImageTk.PhotoImage(self.shuffle_icon)
 
         self.auto_play_icon = Image.open('assets/Images/auto_play.png')
-        self.auto_play_icon = self.auto_play_icon.resize((40,50), Image.LANCZOS)
+        self.auto_play_icon = self.auto_play_icon.resize((30,40), Image.LANCZOS)
         self.auto_play_icon = ImageTk.PhotoImage(self.auto_play_icon)
 
         self.auto_play_not_icon = Image.open('assets/Images/auto_play_not.png')
@@ -134,8 +134,8 @@ class MediaPlayer:
 
        # tk.Label(self.root, text="",background=background,height=7,width=120).place(x=5,y=400)
 
-        self.songs_list = tk.Listbox(self.root, width=35, height=18, bg="#313799", fg="white", relief="flat",
-                                     selectbackground="grey")
+        self.songs_list = tk.Listbox(self.root, width=35, height=18, bg="#99A3A4", fg="blue", relief="groove",
+                                     selectbackground="#877BF6")
         self.songs_list.place(x=284, y=28)
 
         self.time_elapsed_label = tk.Label(self.root,text="00:00", fg="white",background=main_background,
@@ -152,17 +152,25 @@ class MediaPlayer:
 
 ####################################################################################################################################################################
         #BUTTONS
+        self.add_song_button = tk.Button(self.root,image=self.add_song_icon,command=self.add_songs,cursor='hand2',bd=0,
+                                     background=main_background, activebackground=main_background)
+        self.add_song_button.place(x=11,y=20)
+
+        self.delete_button = tk.Button(self.root,image=self.delete_icon,command=lambda: self.delete_song('selected'),cursor='hand2',bd=0,
+                                     background=main_background, activebackground=main_background)
+        self.delete_button.place(x=440,y=360)
+
         self.play_button = tk.Button(self.root,image=self.play_icon,command=self.check_play_pause,cursor='hand2',bd=0,
                                      background=main_background, activebackground=main_background)
-        self.play_button.place(x=113,y=333)
+        self.play_button.place(x=113,y=331)
 
         self.next_button = tk.Button(self.root,image=self.next_icon,command=self.next_song,cursor='hand2',bd=0,
                                      background=main_background, activebackground=main_background)
-        self.next_button.place(x=165,y=333)
+        self.next_button.place(x=162,y=337)
 
         self.previous_button = tk.Button(self.root,image=self.previous_icon,command=self.previous_song,cursor='hand2',bd=0,
                                      background=main_background, activebackground=main_background)
-        self.previous_button.place(x=55,y=333)
+        self.previous_button.place(x=57,y=337)
 
         #self.stop_button = tk.Button(self.root,image=self.stop_icon,command=self.stop_song,cursor='hand2',bd=0,
                                      #background=background, activebackground=background)
@@ -173,40 +181,40 @@ class MediaPlayer:
         self.shuffle_button.place(x=10,y=327)
 
         self.speaker_button = tk.Button(self.root,image=self.speaker_icon,command="command",cursor='hand2',bd=0,
-                                     background="#5981D7", activebackground=background)
+                                     background=background, activebackground=background)
         self.speaker_button.place(x=290,y=360)
 
         self.repeat_button = tk.Button(self.root,image=self.repeat_icon,command=self.repeat_song,cursor='hand2',bd=0,
                                      background=main_background, activebackground=main_background)
         self.repeat_button.place(x=210,y=334)
 
-        self.auto_play_button = tk.Button(self.root,image=self.auto_play_icon,command=self.auto_play_song,cursor='hand2',bd=0,
-                                     background="#313799", activebackground="#313799")
-        self.auto_play_button.place(x=450,y=350)
+        #self.auto_play_button = tk.Button(self.root,image=self.auto_play_icon,command=self.auto_play_song,cursor='hand2',bd=0,
+                                     #background="#313799", activebackground="#313799")
+        #self.auto_play_button.place(x=450,y=350)
 
         self.vol_scale = ttk.Scale(self.root, from_=0, to=100, orient="horizontal",command="simple",cursor="hand2")
         self.vol_scale.place(x=330,y=360)
 
        # self.status = tk.Label(self.root, text="Playing : ---------- Song 0 of 0",fg="white",anchor="w",background= "grey",
                               # font="lucida 9 bold",bd=5,relief="ridge")
-        self.status = tk.Label(self.root, text="----------",fg="white",anchor="w",background=main_background, wraplength=180, justify="left",
+        self.status = tk.Label(self.root, text="-----------------",fg="white",anchor="nw",background=main_background, wraplength=170,
                                font="lucida 13 bold",bd=5)                      
 
-        self.status.place(x=60,y=220)
+        self.status.place(x=55,y=220)
 ################################################################################################################################################
         self.menu = tk.Menu(self.root)
         self.root.configure(menu=self.menu)
 
-        m1 = tk.Menu(self.menu,background="grey",tearoff=False,bd=0,activebackground="black")
-        self.menu.add_cascade(label="Actions",menu=m1)
+        #m1 = tk.Menu(self.menu,background="grey",tearoff=False,bd=0,activebackground="black")
+        #self.menu.add_cascade(label="Actions",menu=m1)
 
-        m1.add_command(label="Add Song", command=self.add_songs,image=self.add_song_icon,compound="left")
+        #m1.add_command(label="Add Song", command=self.add_songs,image=self.add_song_icon,compound="left")
 
-        m2 = tk.Menu(self.menu,background="grey",tearoff=False,bd=0,activebackground="black")
-        self.menu.add_cascade(label="Delete",menu=m2)
+        #m2 = tk.Menu(self.menu,background="grey",tearoff=False,bd=0,activebackground="black")
+        #self.menu.add_cascade(label="Delete",menu=m2)
 
-        m2.add_command(label="Delete Selected", command=self.delete_song,image=self.delete_icon,compound="left")
-        m2.add_command(label="Delete All", command="command", image=self.delete_all_icon, compound="left")
+        #m2.add_command(label="Delete Selected", command=lambda: self.delete_song('selected'),image=self.delete_icon,compound="left")
+        #m2.add_command(label="Delete All", command=lambda: self.delete_song('all'), image=self.delete_all_icon, compound="left")
 ##################################################################################################################################################
         self.directory_list = []
         self.pause=False
@@ -378,7 +386,6 @@ class MediaPlayer:
             self.songs_list.update()
 
 
-
     def next_song(self):
         if self.songs_list.size() >= 1:
             self.root.after_cancel(self.updater)
@@ -439,7 +446,6 @@ class MediaPlayer:
             self.music_duration_label['text']="00:00"
             self.play_button['image']=self.play_icon         
 
-
         
 ##########################################################################################################################################
 
@@ -452,7 +458,7 @@ if __name__ == '__main__':
     window.wm_iconbitmap('assets/shark record.ico')
     window.maxsize(width=515,height=410)
     window.minsize(width=250,height=410)
-    window.geometry("250x410+50+10")
+    window.geometry("250x410+550+10")
     
 
     x = MediaPlayer(window)
