@@ -53,11 +53,11 @@ class MediaPlayer:
         self.purple_image2 = ImageTk.PhotoImage(self.purple_image2)
 ####################################################################################################################################################################
 
-        self.repeat_icon = Image.open('assets/Images/repeat.png')
+        self.repeat_icon = Image.open('assets/repeat.png')
         self.repeat_icon = self.repeat_icon.resize((24,24), Image.LANCZOS)
         self.repeat_icon = ImageTk.PhotoImage(self.repeat_icon)
 
-        self.repeat1_icon = Image.open('assets/Images/repeat1.png')
+        self.repeat1_icon = Image.open('assets/repeat1.png')
         self.repeat1_icon = self.repeat1_icon.resize((24,24), Image.LANCZOS)
         self.repeat1_icon = ImageTk.PhotoImage(self.repeat1_icon)
 
@@ -77,15 +77,15 @@ class MediaPlayer:
         self.previous_icon = self.previous_icon.resize((33,20), Image.LANCZOS)
         self.previous_icon = ImageTk.PhotoImage(self.previous_icon)
 
-        self.stop_icon = Image.open('assets/Images/stop.png')
+        self.stop_icon = Image.open('assets/stop.png')
         self.stop_icon = self.stop_icon.resize((20,20), Image.LANCZOS)
         self.stop_icon = ImageTk.PhotoImage(self.stop_icon)
 
-        self.speaker_icon = Image.open('assets/Images/speaker.png')
+        self.speaker_icon = Image.open('assets/speaker.png')
         self.speaker_icon = self.speaker_icon.resize((30,30), Image.LANCZOS)
         self.speaker_icon = ImageTk.PhotoImage(self.speaker_icon)
 
-        self.mute_icon = Image.open('assets/Images/mute.png')
+        self.mute_icon = Image.open('assets/mute.png')
         self.mute_icon = self.mute_icon.resize((30,30), Image.LANCZOS)
         self.mute_icon = ImageTk.PhotoImage(self.mute_icon)
 
@@ -93,7 +93,7 @@ class MediaPlayer:
         self.delete_icon = self.delete_icon.resize((30,30), Image.LANCZOS)
         self.delete_icon = ImageTk.PhotoImage(self.delete_icon)
 
-        self.delete_all_icon = Image.open('assets/Images/delete2.png')
+        self.delete_all_icon = Image.open('assets/delete2.png')
         self.delete_all_icon = self.delete_all_icon.resize((30,30), Image.LANCZOS)
         self.delete_all_icon = ImageTk.PhotoImage(self.delete_all_icon)
 
@@ -101,19 +101,19 @@ class MediaPlayer:
         self.add_song_icon = self.add_song_icon.resize((25,30), Image.LANCZOS)
         self.add_song_icon = ImageTk.PhotoImage(self.add_song_icon)
 
-        self.multiple_song_icon = Image.open('assets/Images/song2.png')
+        self.multiple_song_icon = Image.open('assets/song2.png')
         self.multiple_song_icon = self.multiple_song_icon.resize((30,30), Image.LANCZOS)
         self.multiple_song_icon = ImageTk.PhotoImage(self.multiple_song_icon)
 
-        self.shuffle_icon = Image.open('assets/Images/shuffle.png')
+        self.shuffle_icon = Image.open('assets/shuffle.png')
         self.shuffle_icon = self.shuffle_icon.resize((30,45), Image.LANCZOS)
         self.shuffle_icon = ImageTk.PhotoImage(self.shuffle_icon)
 
-        self.auto_play_icon = Image.open('assets/Images/auto_play.png')
+        self.auto_play_icon = Image.open('assets/auto_play.png')
         self.auto_play_icon = self.auto_play_icon.resize((30,40), Image.LANCZOS)
         self.auto_play_icon = ImageTk.PhotoImage(self.auto_play_icon)
 
-        self.auto_play_not_icon = Image.open('assets/Images/auto_play_not.png')
+        self.auto_play_not_icon = Image.open('assets/auto_play_not.png')
         self.auto_play_not_icon = self.auto_play_not_icon.resize((40,40), Image.LANCZOS)
         self.auto_play_not_icon = ImageTk.PhotoImage(self.auto_play_not_icon)
 
@@ -387,6 +387,9 @@ class MediaPlayer:
 
 
     def next_song(self):
+        if self.pause ==True:
+            self.play_button.config(image=self.pause_icon)
+            self.pause=False
         if self.songs_list.size() >= 1:
             self.root.after_cancel(self.updater)
             song_index=self.songs_list.index('active')
@@ -404,6 +407,9 @@ class MediaPlayer:
                 self.check_play_pause()
 
     def previous_song(self):
+        if self.pause ==True:
+            self.play_button.config(image=self.pause_icon)
+            self.pause=False
         if self.songs_list.size() >= 1:
             self.root.after_cancel(self.updater)
             song_index=self.songs_list.index('active')
@@ -454,11 +460,11 @@ if __name__ == '__main__':
     window = themed_tk.ThemedTk()
     pygame.init()
 
-    window.title("Music Player")
-    window.wm_iconbitmap('assets/shark record.ico')
-    window.maxsize(width=515,height=410)
-    window.minsize(width=250,height=410)
-    window.geometry("250x410+550+10")
+    window.title("[Shark]")
+    window.iconbitmap(os.path.join(basedir, "assets", "icon.ico"))
+    window.maxsize(width=515,height=400)
+    #window.minsize(width=250,height=400)
+    window.geometry("250x400+650+220")
     
 
     x = MediaPlayer(window)
