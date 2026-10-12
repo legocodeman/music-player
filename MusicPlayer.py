@@ -208,8 +208,9 @@ class MediaPlayer:
 
        # self.status = tk.Label(self.root, text="Playing : ---------- Song 0 of 0",fg="white",anchor="w",background= "grey",
                               # font="lucida 9 bold",bd=5,relief="ridge")
-        self.status = tk.Label(self.root, text="-----------------",fg="white",background=main_background, wraplength=190, anchor='center',
-                               font="lucida 13 bold",bd=5)                      
+        self.status = tk.Label(self.root, text="-----------------",fg="white",background=main_background, anchor='center',
+                               font="lucida 13 bold",bd=5)      
+        #wraplength=190, anchor='center', 
 
         self.status.place(x=40,y=220)
 ################################################################################################################################################
