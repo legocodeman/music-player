@@ -7,6 +7,9 @@ import os
 from mutagen.mp3 import MP3
 import time
 import pygame
+from pygame import mixer  # Import mixer module from pygame for audio playback
+
+
 
 basedir = os.path.dirname(__file__)
 
@@ -32,6 +35,8 @@ class MediaPlayer:
         self.root = window
 
         self.root.configure(bg="#5981D7")
+
+        mixer.init()
 
         
 
@@ -158,7 +163,7 @@ class MediaPlayer:
 
         self.delete_button = tk.Button(self.root,image=self.delete_icon,command=lambda: self.delete_song('selected'),cursor='hand2',bd=0,
                                      background=main_background, activebackground=main_background)
-        self.delete_button.place(x=440,y=360)
+        self.delete_button.place(x=460,y=360)
 
         self.play_button = tk.Button(self.root,image=self.play_icon,command=self.check_play_pause,cursor='hand2',bd=0,
                                      background=main_background, activebackground=main_background)
@@ -180,7 +185,7 @@ class MediaPlayer:
                                      background=main_background, activebackground=main_background)
         self.shuffle_button.place(x=10,y=327)
 
-        self.speaker_button = tk.Button(self.root,image=self.speaker_icon,command="command",cursor='hand2',bd=0,
+        self.speaker_button = tk.Button(self.root,image=self.speaker_icon,command=self.speaker_song,cursor='hand2',bd=0,
                                      background=background, activebackground=background)
         self.speaker_button.place(x=290,y=360)
 
@@ -192,15 +197,21 @@ class MediaPlayer:
                                      #background="#313799", activebackground="#313799")
         #self.auto_play_button.place(x=450,y=350)
 
-        self.vol_scale = ttk.Scale(self.root, from_=0, to=100, orient="horizontal",command="simple",cursor="hand2")
-        self.vol_scale.place(x=330,y=360)
+        #self.mute_button= tk.Button(self.root,image=self.auto_play_icon,command=self.auto_play_song,cursor='hand2',bd=0,
+                                     #background="#313799", activebackground="#313799")
+        #self.mute_button.place(x=450,y=350)
+
+        self.vol_scale = ttk.Scale(self.root, from_=0, to=100, orient="horizontal",command=self.set_volume,cursor="hand2")
+        self.vol_scale.set(50)  # Set initial volume to 50%
+        self.vol_scale.pack(pady=5)
+        self.vol_scale.place(x=330,y=365)
 
        # self.status = tk.Label(self.root, text="Playing : ---------- Song 0 of 0",fg="white",anchor="w",background= "grey",
                               # font="lucida 9 bold",bd=5,relief="ridge")
-        self.status = tk.Label(self.root, text="-----------------",fg="white",anchor="nw",background=main_background, wraplength=170,
+        self.status = tk.Label(self.root, text="-----------------",fg="white",background=main_background, wraplength=190, anchor='center',
                                font="lucida 13 bold",bd=5)                      
 
-        self.status.place(x=55,y=220)
+        self.status.place(x=40,y=220)
 ################################################################################################################################################
         self.menu = tk.Menu(self.root)
         self.root.configure(menu=self.menu)
@@ -221,6 +232,7 @@ class MediaPlayer:
         self.repeat_condition=False
 
         self.autoplay = True
+        self.speaker = True
 
         self.songs_to_play=[]
 
@@ -366,6 +378,16 @@ class MediaPlayer:
                 self.autoplay=False
                 self.auto_play_button.config(image=self.auto_play_not_icon)
 
+    def speaker_song(self):
+        if self.songs_list.size() >= 1:
+            if not self.speaker:
+                self.speaker=True
+                self.speaker_button.config(image=self.speaker_icon)
+            else:
+                self.speaker=False
+                self.speaker_button.config(image=self.mute_icon)
+                self.vol_scale.set(0)
+
     def shuffle_songs(self):
         if self.songs_list.size() >= 1:
             song_name=self.songs_list.get('active')
@@ -450,7 +472,12 @@ class MediaPlayer:
             self.progress_scale['value']=0
             self.time_elapsed_label['text']="00:00"
             self.music_duration_label['text']="00:00"
-            self.play_button['image']=self.play_icon         
+            self.play_button['image']=self.play_icon        
+
+    def set_volume(self, value):
+        """Set the volume of the audio playback."""
+        volume = float(value) / 100  # Convert slider value to a float between 0 and 1
+        mixer.music.set_volume(volume)
 
         
 ##########################################################################################################################################
@@ -462,9 +489,9 @@ if __name__ == '__main__':
 
     window.title("[Shark]")
     window.iconbitmap(os.path.join(basedir, "assets", "shark record.ico"))
-    window.maxsize(width=515,height=400)
+    window.maxsize(width=515,height=410)
     #window.minsize(width=250,height=400)
-    window.geometry("250x400+650+220")
+    window.geometry("250x410+650+220")
     
 
     x = MediaPlayer(window)
