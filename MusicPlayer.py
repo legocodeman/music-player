@@ -461,7 +461,7 @@ if __name__ == '__main__':
     pygame.init()
 
     window.title("[Shark]")
-    window.iconbitmap(os.path.join(basedir, "assets", "icon.ico"))
+    window.iconbitmap(os.path.join(basedir, "assets", "shark record.ico"))
     window.maxsize(width=515,height=400)
     #window.minsize(width=250,height=400)
     window.geometry("250x400+650+220")
