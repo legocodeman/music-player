@@ -8,10 +8,20 @@ from mutagen.mp3 import MP3
 import time
 import pygame
 from pygame import mixer  # Import mixer module from pygame for audio playback
+import sys
+
+
+if getattr(sys, 'frozen', False):
+    basedir = getattr(sys, '_MEIPASS')
+else:
+    basedir = os.path.dirname(os.path.abspath(__file__))
+
+os.chdir(basedir)
+print("Basedir:", basedir)
+print("Image exists:", os.path.exists(os.path.join(basedir, "assets", "shark_record.png")))
 
 
 
-basedir = os.path.dirname(__file__)
 
 try:
     from ctypes import windll  # Only exists on Windows.
@@ -38,9 +48,10 @@ class MediaPlayer:
 
         mixer.init()
 
-        
+        print("Current directory:", os.getcwd())
+        print("Image exists here:", os.path.exists('assets/shark_record.png'))  
 
-        self.music_image = Image.open('assets/shark record.png')
+        self.music_image = Image.open('assets/shark_record.png')
         self.music_image = self.music_image.resize((140,140), Image.LANCZOS)
         self.music_image = ImageTk.PhotoImage(self.music_image)
 
@@ -489,7 +500,7 @@ if __name__ == '__main__':
     pygame.init()
 
     window.title("[Shark]")
-    window.iconbitmap(os.path.join(basedir, "assets", "shark record.ico"))
+    window.iconbitmap(os.path.join(basedir, "icon.ico"))
     window.maxsize(width=515,height=410)
     #window.minsize(width=250,height=400)
     window.geometry("250x410+650+220")
